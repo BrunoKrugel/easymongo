@@ -15,6 +15,8 @@ type MongoInstance struct {
 	mCollection *mongo.Collection
 }
 
+var singletonInstance *MongoInstance
+
 func NewMongoInstance(uri string, db string, collection string) *MongoInstance {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 	clientOptions := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPIOptions).SetMaxPoolSize(200)
@@ -33,12 +35,11 @@ func NewMongoInstance(uri string, db string, collection string) *MongoInstance {
 	}
 }
 
-func (m *MongoInstance) GetClient() *mongo.Client {
-	return m.mClient
-}
-
-func (m *MongoInstance) GetCollection() *mongo.Collection {
-	return m.mCollection
+func NewSingletonInstance(uri string, db string, collection string) *MongoInstance {
+	if singletonInstance == nil {
+		singletonInstance = NewMongoInstance(uri, db, collection)
+	}
+	return singletonInstance
 }
 
 func (m *MongoInstance) CloseMongo() {
@@ -73,4 +74,11 @@ func (m *MongoInstance) UpdateOne(filter bson.D, update bson.D) (*mongo.UpdateRe
 	defer cancel()
 
 	return m.mCollection.UpdateOne(ctx, filter, update)
+}
+
+func (m *MongoInstance) FindOne(filter bson.D) *mongo.SingleResult {
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	return m.mCollection.FindOne(ctx, filter)
 }
