@@ -73,7 +73,8 @@ func (m *MongoInstance) UpdateOne(filter bson.D, update bson.D) (*mongo.UpdateRe
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	return m.mCollection.UpdateOne(ctx, filter, update)
+	options := options.Update().SetUpsert(true)
+	return m.mCollection.UpdateOne(ctx, filter, update, options)
 }
 
 func (m *MongoInstance) FindOne(filter bson.D) *mongo.SingleResult {
