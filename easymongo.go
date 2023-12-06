@@ -1,4 +1,4 @@
-package mongo
+package easymongo
 
 import (
 	"context"
@@ -17,7 +17,7 @@ type MongoInstance struct {
 
 var singletonInstance *MongoInstance
 
-func NewMongoInstance(uri string, db string, collection string) *MongoInstance {
+func New(uri string, db string, collection string) *MongoInstance {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 	clientOptions := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPIOptions).SetMaxPoolSize(200)
 
@@ -35,14 +35,14 @@ func NewMongoInstance(uri string, db string, collection string) *MongoInstance {
 	}
 }
 
-func NewSingletonInstance(uri string, db string, collection string) *MongoInstance {
+func NewStatic(uri string, db string, collection string) *MongoInstance {
 	if singletonInstance == nil {
-		singletonInstance = NewMongoInstance(uri, db, collection)
+		singletonInstance = New(uri, db, collection)
 	}
 	return singletonInstance
 }
 
-func (m *MongoInstance) CloseMongo() {
+func (m *MongoInstance) Close() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	m.mClient.Disconnect(ctx)
