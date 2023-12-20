@@ -9,6 +9,14 @@
 
 ## Features
 
+## Installation
+
+You can use `go get` to get the latest version:
+
+```bash
+go get -u github.com/BrunoKrugel/easymongo@latest
+```
+
 ## Usage
 
 The following samples will assist you to become as comfortable as possible with easymongo library.
