@@ -3,7 +3,6 @@ package easymongo
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -29,7 +28,6 @@ func New(uri string, db string, collection string) *MongoInstance {
 
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
-		fmt.Println(err)
 		return &MongoInstance{}
 	}
 	return &MongoInstance{
