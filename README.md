@@ -3,6 +3,10 @@
 <p align="center">Simple wraper for MongoDB</p>
 </p>
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/BrunoKrugel/easymongo)](https://goreportcard.com/report/github.com/BrunoKrugel/easymongo)
+[![Go Reference](https://pkg.go.dev/badge/github.com/BrunoKrugel/easymongo.svg)](https://pkg.go.dev/github.com/BrunoKrugel/easymongo)
+
+
 ## Features
 
 ## Usage
